@@ -39,9 +39,8 @@ services:
           - plex
           - pms
     volumes:
-      - media/config:/config
-      - media/films:/data/films
-      - media/tv:/data/tv
+      - media:/data:ro
+      - media-config:/config
       - /tmp/transcode:/transcode
     depends_on:
       - fs-parity
@@ -61,7 +60,8 @@ services:
       - 139:139
       - 445:445
     volumes:
-      - media:/mount
+      - media:/mount/media
+      - media-config:/mount/media-config:ro
     depends_on:
       - fs-parity
       - fs-pool
@@ -69,3 +69,4 @@ services:
 
 volumes:
   media:
+  media-config:
