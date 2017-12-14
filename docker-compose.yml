@@ -1,0 +1,71 @@
+version: '3'
+
+networks:
+  hostnet:
+    external:
+      name: host
+
+services:
+
+  fs-parity:
+    image: carlba/snapraid
+    volumes:
+      - ./snapraid:/config
+      - /mnt/data0:/mnt/data0
+      - /mnt/data1:/mnt/data1
+      - /mnt/data2:/mnt/data2
+      - /mnt/data3:/mnt/data3
+      - /mnt/parity0:/mnt/parity0
+    restart: always
+
+  fs-pool:
+    image: darrin0101/mergerfs
+    volumes:
+      - media:/mnt/data
+      - /mnt/data0:/mnt/data0
+      - /mnt/data1:/mnt/data1
+      - /mnt/data2:/mnt/data2
+      - /mnt/data3:/mnt/data3
+    restart: always
+
+  media-server:
+    image: linuxserver/plex
+    environment:
+      TZ: GB
+      VERSION: latest
+    networks:
+      hostnet:
+        aliases:
+          - plex
+          - pms
+    volumes:
+      - media/config:/config
+      - media/films:/data/films
+      - media/tv:/data/tv
+      - /tmp/transcode:/transcode
+    depends_on:
+      - fs-parity
+      - fs-pool
+    restart: always
+
+  player:
+    image: nicjo814/docker-plexmediaplayer
+    privileged: true
+    links:
+      - media-server
+    restart: always
+
+  samba:
+    image: dperson/samba
+    ports:
+      - 139:139
+      - 445:445
+    volumes:
+      - media:/mount
+    depends_on:
+      - fs-parity
+      - fs-pool
+    restart: always
+
+volumes:
+  media:
