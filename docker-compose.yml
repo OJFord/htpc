@@ -48,6 +48,10 @@ services:
   player:
     image: nicjo814/docker-plexmediaplayer
     privileged: true
+    environment:
+      GFX_DRIVER: radeon
+    volumes:
+      - /tmp:/tmp
     links:
       - media-server
     restart: always
