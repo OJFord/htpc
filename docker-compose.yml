@@ -4,6 +4,8 @@ services:
 
   fs-parity:
     image: b32147/docker-snapraid
+    environment:
+      PUID: 1001
     network_mode: bridge
     volumes:
       - ./fs-parity:/config
@@ -15,8 +17,10 @@ services:
     restart: always
 
   fs-pool:
-    build: ./fs-pool
-    command: -d -o defaults,allow_other,use_ino /mnt/data\* /mnt/pool
+    build:
+      context: ./fs-pool
+      args:
+        UID: 1001
     cap_add:
       - SYS_ADMIN
     devices:
@@ -33,6 +37,7 @@ services:
   media-server:
     image: linuxserver/plex
     environment:
+      PUID: 1001
       TZ: GB
       VERSION: latest
     network_mode: host
@@ -64,6 +69,7 @@ services:
     environment:
       NMBD:
       TZ: GB
+      USERID: 1001
       WORKGROUP: WORKGROUP
     ports:
       - 139:139
