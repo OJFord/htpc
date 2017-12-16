@@ -1,14 +1,10 @@
 version: '3'
 
-networks:
-  hostnet:
-    external:
-      name: host
-
 services:
 
   fs-parity:
     image: carlba/snapraid
+    network_mode: bridge
     volumes:
       - ./snapraid:/config
       - /mnt/data0:/mnt/data0
@@ -20,6 +16,7 @@ services:
 
   fs-pool:
     image: darrin0101/mergerfs
+    network_mode: none
     volumes:
       - media:/mnt/data
       - /mnt/data0:/mnt/data0
@@ -33,11 +30,7 @@ services:
     environment:
       TZ: GB
       VERSION: latest
-    networks:
-      hostnet:
-        aliases:
-          - plex
-          - pms
+    network_mode: host
     volumes:
       - media:/data:ro
       - media-config:/config
