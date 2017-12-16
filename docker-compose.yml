@@ -17,6 +17,10 @@ services:
   fs-pool:
     build: ./mergerfs
     command: -o defaults,allow_other,use_ino /mnt/data\* /mnt/pool
+    cap_add:
+      - SYS_ADMIN
+    devices:
+      - /dev/fuse:/dev/fuse
     network_mode: none
     volumes:
       - media:/mnt/pool
