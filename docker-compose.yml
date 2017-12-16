@@ -6,7 +6,7 @@ services:
     image: b32147/docker-snapraid
     network_mode: bridge
     volumes:
-      - ./snapraid:/config
+      - ./fs-parity:/config
       - /mnt/data0:/mnt/data0
       - /mnt/data1:/mnt/data1
       - /mnt/data2:/mnt/data2
@@ -15,7 +15,7 @@ services:
     restart: always
 
   fs-pool:
-    build: ./mergerfs
+    build: ./fs-pool
     command: -d -o defaults,allow_other,use_ino /mnt/data\* /mnt/pool
     cap_add:
       - SYS_ADMIN
