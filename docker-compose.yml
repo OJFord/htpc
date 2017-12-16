@@ -15,10 +15,11 @@ services:
     restart: always
 
   fs-pool:
-    image: darrin0101/mergerfs
+    build: ./mergerfs
+    command: -o defaults,allow_other,use_ino /mnt/data\* /mnt/pool
     network_mode: none
     volumes:
-      - media:/mnt/data
+      - media:/mnt/pool
       - /mnt/data0:/mnt/data0
       - /mnt/data1:/mnt/data1
       - /mnt/data2:/mnt/data2
