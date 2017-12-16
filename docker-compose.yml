@@ -58,6 +58,13 @@ services:
 
   samba:
     image: dperson/samba
+    command: |
+      -s 'media;/mount/media;yes;no;yes'
+      -s 'media-config;/mount/media-config;yes;yes;yes'
+    environment:
+      NMBD:
+      TZ: GB
+      WORKGROUP: WORKGROUP
     ports:
       - 139:139
       - 445:445
