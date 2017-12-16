@@ -3,7 +3,7 @@ version: '3'
 services:
 
   fs-parity:
-    image: carlba/snapraid
+    image: b32147/docker-snapraid
     network_mode: bridge
     volumes:
       - ./snapraid:/config
