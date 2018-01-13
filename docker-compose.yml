@@ -11,8 +11,6 @@ services:
       - ./fs-parity:/config
       - /mnt/data0:/mnt/data0
       - /mnt/data1:/mnt/data1
-      - /mnt/data2:/mnt/data2
-      - /mnt/data3:/mnt/data3
       - /mnt/parity0:/mnt/parity0
     restart: always
 
@@ -30,8 +28,6 @@ services:
       - media:/mnt/pool
       - /mnt/data0:/mnt/data0
       - /mnt/data1:/mnt/data1
-      - /mnt/data2:/mnt/data2
-      - /mnt/data3:/mnt/data3
     restart: always
 
   media-server:
