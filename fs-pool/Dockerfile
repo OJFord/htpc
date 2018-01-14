@@ -15,3 +15,5 @@ RUN useradd -M -Groot -U -u"$UID" mfsuser \
 
 USER "$UID"
 ENTRYPOINT /usr/bin/mergerfs -d -o defaults,allow_other,use_ino /mnt/data\* /mnt/pool
+# may break the mountpoint on exit - run `fusermount -uz {mountpoint}` to fix:
+#  "Transport endpoint is not connected"
