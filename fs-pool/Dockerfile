@@ -1,9 +1,11 @@
 FROM debian:jessie-slim
 
 ENV VERSION='2.23.1'
-RUN apt update && apt install -y fuse wget \
+RUN apt update && apt install -y fuse python3 rsync wget \
     && wget "https://github.com/trapexit/mergerfs/releases/download/${VERSION}/mergerfs_${VERSION}.debian-jessie_amd64.deb" \
-    && dpkg -i mergerfs*.deb && rm mergerfs*.deb
+    && dpkg -i mergerfs*.deb && rm mergerfs*.deb \
+    && wget -O /usr/local/bin/mergerfs.balance "https://raw.githubusercontent.com/trapexit/mergerfs-tools/master/src/mergerfs.balance" \
+    && chmod +x /usr/local/bin/mergerfs.balance
 
 
 ARG UID=1000
