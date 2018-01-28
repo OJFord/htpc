@@ -14,7 +14,7 @@ RUN chmod +x /usr/local/bin/mergerfs.balance
 
 
 ARG POOL_MOUNTPOINT
-ENV POOL_MOUNTPOINT ${POOL_MOUNTPOINT:-/mnt/pool}
+ENV POOL_MOUNTPOINT ${POOL_MOUNTPOINT:-/pool}
 ARG UID=1000
 RUN useradd -M -Groot -U -u"$UID" mfsuser
 RUN echo 'user_allow_other' >> /etc/fuse.conf

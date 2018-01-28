@@ -9,16 +9,15 @@ services:
     network_mode: bridge
     volumes:
       - ./fs-parity:/config
-      - /mnt/data0:/mnt/data0
-      - /mnt/data1:/mnt/data1
-      - /mnt/parity0:/mnt/parity0
+      - ./disks/media:/mnt/media
+      - ./disks/parity:/mnt/parity
     restart: always
 
   fs-pool:
     build:
       context: ./fs-pool
       args:
-        POOL_MOUNTPOINT: /mnt/pool
+        POOL_MOUNTPOINT: /pool
         UID: 1001
     cap_add:
       - SYS_ADMIN
@@ -26,9 +25,8 @@ services:
       - /dev/fuse:/dev/fuse
     network_mode: none
     volumes:
-      - /mnt/media:/mnt/pool:rshared
-      - /mnt/data0:/mnt/data0
-      - /mnt/data1:/mnt/data1
+      - ./disks/media:/mnt
+      - ./media:/pool:rshared
     restart: always
 
   media-server:
@@ -39,7 +37,7 @@ services:
       VERSION: latest
     network_mode: host
     volumes:
-      - /mnt/media:/data:ro
+      - ./media:/data:ro
       - media-config:/config
       - /tmp/transcode:/transcode
     depends_on:
@@ -72,7 +70,7 @@ services:
       - 139:139
       - 445:445
     volumes:
-      - /mnt/media:/mount/media:rslave
+      - ./media:/mount/media:rslave
       - media-config:/mount/media-config:ro
     depends_on:
       - fs-parity
