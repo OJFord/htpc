@@ -2,8 +2,11 @@ FROM debian:jessie-slim
 
 ENV VERSION='2.23.1'
 
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E007F6BD
+RUN echo "deb http://ppa.launchpad.net/chazomaticus/minit/ubuntu quantal main" >/etc/apt/sources.list.d/minit.list
 RUN apt update
 RUN apt install -y fuse
+RUN apt install -y minit
 RUN apt install -y python3
 RUN apt install -y rsync
 RUN apt install -y wget
@@ -23,6 +26,7 @@ RUN chown -R "$UID" /mnt
 RUN chmod -R u+rw /mnt
 USER "$UID"
 
-ENTRYPOINT /usr/bin/mergerfs -d -o defaults,allow_other,use_ino /mnt/data\* "$POOL_MOUNTPOINT"
-# may break the mountpoint on exit - run `fusermount -uz {mountpoint}` to fix:
-#  "Transport endpoint is not connected"
+ADD entrypoint.sh /etc/minit/startup
+ADD exitpoint.sh /etc/minit/shutdown
+ENTRYPOINT ["/sbin/minit"]
+STOPSIGNAL SIGINT
