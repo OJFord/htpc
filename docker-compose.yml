@@ -18,6 +18,7 @@ services:
     build:
       context: ./fs-pool
       args:
+        POOL_MOUNTPOINT: /mnt/pool
         UID: 1001
     cap_add:
       - SYS_ADMIN
