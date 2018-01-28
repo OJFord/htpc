@@ -17,6 +17,7 @@ services:
     build:
       context: ./fs-pool
       args:
+        DISK_MOUNTS_DIR: /mnt
         POOL_MOUNTPOINT: /pool
         UID: 1001
     cap_add:

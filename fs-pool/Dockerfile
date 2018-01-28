@@ -16,14 +16,17 @@ RUN wget -O /usr/local/bin/mergerfs.balance "https://raw.githubusercontent.com/t
 RUN chmod +x /usr/local/bin/mergerfs.balance
 
 
+ARG DISK_MOUNTS_DIR
+ENV DISK_MOUNTS_DIR ${DISK_MOUNTS_DIR:-/mnt}
 ARG POOL_MOUNTPOINT
 ENV POOL_MOUNTPOINT ${POOL_MOUNTPOINT:-/pool}
+
 ARG UID=1000
 RUN useradd -M -Groot -U -u"$UID" mfsuser
 RUN echo 'user_allow_other' >> /etc/fuse.conf
 RUN mkdir -p "$POOL_MOUNTPOINT"
-RUN chown -R "$UID" /mnt
-RUN chmod -R u+rw /mnt
+RUN chown -R "$UID" "$DISK_MOUNTS_DIR"
+RUN chmod -R u+rw "$DISK_MOUNTS_DIR"
 USER "$UID"
 
 ADD entrypoint.sh /etc/minit/startup
