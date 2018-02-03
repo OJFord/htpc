@@ -40,7 +40,20 @@ echo "Creating partition on $new_label"
 parted "$new_disk" mklabel gpt mkpart primary ext4 0% 100%
 
 echo "Formatting $new_label"
-mkfs.ext4 "$new_disk"
+case "$type" in
+    parity)
+        # Recommended SnapRAID options
+        mkfs.ext4 -m 0 -T largefile4 "$new_disk"
+        ;;
+    *)
+        mkfs.ext4 \
+            # No reservation for superuser
+            -m 0 \
+            # One inode for every 1.75GB of disk
+            -i 1750000000 \
+            "$new_disk"
+        ;;
+esac
 
 echo "Labelling $new_label"
 e2label "$new_disk" "$new_label"
