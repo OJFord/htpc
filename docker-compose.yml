@@ -4,13 +4,14 @@ services:
 
   fs-parity:
     image: b32147/docker-snapraid
-    entrypoint: /config/entrypoint.sh
+    entrypoint: /entrypoint.sh
     environment:
       PUID: 1001
     network_mode: bridge
     volumes:
-      - ./fs-parity:/config
-      - ./.snapraid.content:/var/snapraid/snapraid.content
+      - ./fs-parity/entrypoint.sh:/entrypoint.sh
+      - ./fs-parity/snapraid-runner.conf:/config/snapraid-runner.conf
+      - ./fs-parity/var:/var/snapraid
       - ./disks/media:/mnt/data
       - ./disks/parity:/mnt/parity
     restart: always
