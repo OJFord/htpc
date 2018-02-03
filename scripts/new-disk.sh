@@ -64,7 +64,7 @@ echo "/etc/fstab backed up to $fstab_backup"
 
 new_mount="${disk_dir}/disk$new_number"
 echo "Adding $new_disk at $new_mount"
-echo >> /etc/fstab <<-EOF
+tee -a /etc/fstab <<-EOF
     $new_disk	$new_mount	ext4	defaults	0 0
 EOF
 
