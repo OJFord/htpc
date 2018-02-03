@@ -10,7 +10,7 @@ echo content /var/snapraid/snapraid.content >> /config/snapraid.conf
 ls /mnt/parity | xargs -I@ echo "content /mnt/parity/@/snapraid.content" >> /config/snapraid.conf
 
 # Set data disks
-ls /mnt/data | xargs -I@ echo "data ${@/disk/data} /mnt/data/@" >> /config/snapraid.conf
+ls /mnt/data | xargs -I@ sh -c 'echo data $(echo @ | sed s/disk/data/ -) /mnt/data/@' >> /config/snapraid.conf
 
 # Set other options
 echo nohidden >> /config/snapraid.conf
