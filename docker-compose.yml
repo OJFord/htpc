@@ -1,4 +1,4 @@
-version: '3'
+version: '2.3'
 
 services:
 
@@ -29,6 +29,12 @@ services:
       - ./disks/media:/mnt
       - ./media:/pool:rshared
     restart: always
+    healthcheck:
+      test: test $$(find $$POOL_MOUNTPOINT -name '*.mkv' | wc -l) -ne 0
+      interval: 10s
+      timeout: 2s
+      retries: 60
+      start_period: 10s
 
   media-server:
     image: linuxserver/plex
@@ -42,8 +48,10 @@ services:
       - media-config:/config
       - /dev/shm:/transcode
     depends_on:
-      - fs-parity
-      - fs-pool
+      fs-parity:
+        condition: service_started
+      fs-pool:
+        condition: service_healthy
     restart: always
 
   player:
