@@ -17,5 +17,10 @@ ls /mnt/data | xargs -I@ sh -c 'echo data $(echo @ | sed s/disk/data/ -) /mnt/da
 # Set other options
 echo nohidden >> /config/snapraid.conf
 
+if ! which smartctl; then
+    # required for `snapraid smart`
+    apt install smartmontools
+fi
+
 # Now run the snapraid command
 /sbin/my_init
