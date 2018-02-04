@@ -46,11 +46,11 @@ case "$type" in
         mkfs.ext4 -m 0 -T largefile4 "$new_disk"
         ;;
     *)
+        # -m0: No reservation for superuser
+        # -i67108864: One inode for every ~67MB (the max - idk why) of disk
         mkfs.ext4 \
-            # No reservation for superuser
             -m 0 \
-            # One inode for every 1.75GB of disk
-            -i 1750000000 \
+            -i 67108864 \
             "$new_disk"
         ;;
 esac
