@@ -2,6 +2,18 @@ version: '2.3'
 
 services:
 
+  analytics:
+    image: linuxserver/plexpy
+    environment:
+      PUID: 1001
+      TZ: GB
+    ports:
+      - 8181:8181
+    volumes:
+      - ./app-config/tautulli:/config
+      - ./app-config/plex/Library/Application\ Support/Plex\ Media\ Server/Logs:/logs:ro
+    restart: always
+
   fs-parity:
     image: b32147/docker-snapraid
     entrypoint: /entrypoint.sh
@@ -48,7 +60,7 @@ services:
     network_mode: host
     volumes:
       - ./media:/data:ro
-      - media-config:/config
+      - ./app-config/plex:/config
       - /dev/shm:/transcode
     depends_on:
       fs-parity:
@@ -83,11 +95,8 @@ services:
       - 445:445
     volumes:
       - ./media:/mount/media:rslave
-      - media-config:/mount/media-config:ro
+      - ./app-config:/mount/media-config:ro
     depends_on:
       - fs-parity
       - fs-pool
     restart: always
-
-volumes:
-  media-config:
