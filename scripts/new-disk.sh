@@ -64,7 +64,6 @@ echo "/etc/fstab backed up to $fstab_backup"
 
 new_mount="${disk_dir}/disk$new_number"
 echo "Adding $new_disk at $new_mount"
-chown -R htpc:users "$new_mount"
 tee -a /etc/fstab <<-EOF
 	# $(date)
 	$new_disk	$new_mount	ext4	defaults	0 0
@@ -73,6 +72,9 @@ EOF
 echo "Mounting $new_mount"
 mkdir "$new_mount"
 mount "$new_disk"
+
+echo "Restoring user htpc permissions to $new_mount"
+chown -R htpc:users "$new_mount"
 
 echo "Success!"
 exit 0
