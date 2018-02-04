@@ -12,7 +12,7 @@ services:
       - ./fs-parity/entrypoint.sh:/entrypoint.sh
       - ./fs-parity/snapraid-runner.conf:/config/snapraid-runner.conf
       - ./fs-parity/var:/var/snapraid
-      - ./disks/media:/mnt/data
+      - ./disks/media:/mnt/data:rslave
       - ./disks/parity:/mnt/parity
     restart: always
 
