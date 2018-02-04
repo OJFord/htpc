@@ -3,8 +3,9 @@ set -e
 rm -f /config/snapraid.conf
 
 # Set parity disks
-echo -n parity >> /config/snapraid.conf
+echo -n parity >> /config/snapraid.conf # begin line
 ls /mnt/parity | xargs -I@ echo -n " /mnt/parity/@/snapraid.parity" >> /config/snapraid.conf
+echo '' >> /config/snapraid.conf # end line
 
 # Set content list disks - must have at least (1 + {no. parity disks}) many
 echo content /var/snapraid/snapraid.content >> /config/snapraid.conf
