@@ -13,6 +13,11 @@ services:
       - ./app-config/tautulli:/config
       - ./app-config/plex/Library/Application\ Support/Plex\ Media\ Server/Logs:/logs:ro
     restart: always
+    logging:
+      driver: json-file
+      options:
+        max-size: 1G
+        max-file: '1'
 
   fs-parity:
     image: b32147/docker-snapraid
@@ -31,6 +36,11 @@ services:
       - ./disks/media:/mnt/data:rslave
       - ./disks/parity:/mnt/parity
     restart: always
+    logging:
+      driver: json-file
+      options:
+        max-size: 1G
+        max-file: '1'
 
   fs-pool:
     build:
@@ -54,6 +64,11 @@ services:
       timeout: 2s
       retries: 60
       start_period: 10s
+    logging:
+      driver: json-file
+      options:
+        max-size: 1G
+        max-file: '1'
 
   media-server:
     image: linuxserver/plex
@@ -72,6 +87,11 @@ services:
       fs-pool:
         condition: service_healthy
     restart: always
+    logging:
+      driver: json-file
+      options:
+        max-size: 1G
+        max-file: '1'
 
   samba:
     image: dperson/samba
@@ -93,3 +113,8 @@ services:
       - fs-parity
       - fs-pool
     restart: always
+    logging:
+      driver: json-file
+      options:
+        max-size: 1G
+        max-file: '1'
