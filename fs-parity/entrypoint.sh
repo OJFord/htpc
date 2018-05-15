@@ -19,7 +19,7 @@ echo nohidden >> /config/snapraid.conf
 
 if ! which smartctl; then
     # required for `snapraid smart`
-    apt update && apt install smartmontools
+    apt update -y && apt install -y smartmontools
 fi
 
 # Now run the snapraid command
