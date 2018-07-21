@@ -24,6 +24,7 @@ services:
     entrypoint: /entrypoint.sh
     environment:
       PUID: 1001
+      TZ: GB
     network_mode: bridge
     # Uncomment to run `snapraid smart`
     # The alternative is `cap_add: - SYS_ADMIN` and listing all disk devices...
