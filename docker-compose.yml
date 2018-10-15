@@ -3,18 +3,16 @@ version: '2.3'
 services:
 
   fs-parity:
-    image: b32147/docker-snapraid
-    entrypoint: /entrypoint.sh
-    environment:
-      PUID: 1001
-      TZ: GB
+    build:
+      context: ./fs-parity
+      args:
+        UID: 1001
     network_mode: bridge
     # Uncomment to run `snapraid smart`
     # The alternative is `cap_add: - SYS_ADMIN` and listing all disk devices...
     # ...better not to list them manually, and be privileged iff we need to be.
     #privileged: true
     volumes:
-      - ./fs-parity/entrypoint.sh:/entrypoint.sh
       - ./fs-parity/snapraid-runner.conf:/config/snapraid-runner.conf
       - ./fs-parity/var:/var/snapraid
       - ./disks/media:/mnt/data:rslave
