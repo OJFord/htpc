@@ -2,23 +2,6 @@ version: '2.3'
 
 services:
 
-  analytics:
-    image: linuxserver/plexpy
-    environment:
-      PUID: 1001
-      TZ: GB
-    ports:
-      - 8181:8181
-    volumes:
-      - ./app-config/tautulli:/config
-      - ./app-config/plex/Library/Application\ Support/Plex\ Media\ Server/Logs:/logs:ro
-    restart: always
-    logging:
-      driver: json-file
-      options:
-        max-size: 1G
-        max-file: '1'
-
   fs-parity:
     image: b32147/docker-snapraid
     entrypoint: /entrypoint.sh
